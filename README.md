@@ -4,6 +4,15 @@ Official website and finance dashboard for Annapurna Mobile Care, Dharan-16 Anna
 
 ## Quick Start
 
+Create .env.local
+
+Add:
+
+DATABASE_URL=postgresql://postgres:admin@localhost:8000/annapurna_db
+ADMIN_PASSWORD=dharan16
+JWT_SECRET=annapurna-mobile-care-secret-key-2024
+
+
 ### 1. Prerequisites
 - Node.js 18+ installed
 - PostgreSQL installed and running
