@@ -174,6 +174,7 @@ function Th({ children, left, accent, muted }: { children?: React.ReactNode; lef
 function TableRow({ entry: e, dateStr, net, onEdit, onDelete }: {
     entry: Entry; dateStr: string; net: number
     onEdit: (e: Entry) => void; onDelete: (id: number) => void
+
 }) {
     const [hovered, setHovered] = useState(false)
     return (
@@ -200,7 +201,7 @@ function TableRow({ entry: e, dateStr, net, onEdit, onDelete }: {
             </td>
             <td style={{ padding: '10px 12px' }}>
                 <div style={{ display: 'flex', gap: 6, opacity: hovered ? 1 : 0, transition: 'opacity .15s' }}>
-                    <button onClick={() => onEdit(e)} style={{ background: N800, border: `1px solid ${B100}40`, cursor: 'pointer', fontSize: 10, color: B100, padding: '3px 9px', borderRadius: 5 }}>
+                    <button onClick={() => { console.log('editing:', e.id, e.date); onEdit(e) }} style={{ background: N800, border: `1px solid ${B100}40`, cursor: 'pointer', fontSize: 10, color: B100, padding: '3px 9px', borderRadius: 5 }}>
                         Edit
                     </button>
                     <button onClick={() => onDelete(e.id)} style={{ background: N800, border: `1px solid ${N500}40`, cursor: 'pointer', fontSize: 10, color: N400, padding: '3px 9px', borderRadius: 5 }}>
@@ -447,6 +448,18 @@ function EntryModal({ initial, onSave, onClose }: {
         expenses: String(initial.expenses ?? ''),
         notes: initial.notes ?? '',
     })
+
+    useEffect(() => {
+        setForm({
+            date: initial.date ? initial.date.slice(0, 10) : todayStr(),
+            photo: String(initial.photo ?? ''),
+            photocopy: String(initial.photocopy ?? ''),
+            mobile: String(initial.mobile ?? ''),
+            other: String(initial.other ?? ''),
+            expenses: String(initial.expenses ?? ''),
+            notes: initial.notes ?? '',
+        })
+    }, [initial.id])
     const [saving, setSaving] = useState(false)
 
     async function handleSubmit(e: React.FormEvent) {

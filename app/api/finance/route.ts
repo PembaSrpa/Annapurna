@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   const month = searchParams.get('month')
   const year = searchParams.get('year')
 
-  let queryText = 'SELECT * FROM finance_entries'
+let queryText = 'SELECT id, date::text, photo, photocopy, mobile, other, expenses, notes, created_at, updated_at FROM finance_entries'
   const params: unknown[] = []
 
   if (month && year) {
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     params.push(parseInt(year))
   }
 
-  queryText += ' ORDER BY date ASC'
+  queryText += ' ORDER BY date DESC'
 
   const result = await query(queryText, params)
   return NextResponse.json(result.rows)
