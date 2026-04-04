@@ -1,374 +1,425 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import {
+    IconDeviceMobile,
+    IconTool,
+    IconPrinter,
+    IconCamera,
+    IconFileText,
+    IconDeviceLaptop,
+    IconMapPin,
+    IconClock,
+    IconPhone,
+    IconMail,
+    IconBrandWhatsapp,
+    IconMenu2,
+    IconX,
+    IconArrowDown,
+    IconCheck,
+    IconBolt,
+    IconDiamond,
+    IconCoin,
+    IconUsers,
+} from '@tabler/icons-react'
 
 const services = [
-  {
-    icon: '📱',
-    title: 'Mobile Accessories',
-    desc: 'Earphones, chargers, cases, screen guards, cables, power banks and all mobile essentials.',
-    items: ['Earphones & Headphones', 'Chargers & Cables', 'Phone Cases & Covers', 'Screen Guards', 'Power Banks'],
-  },
-  {
-    icon: '🔧',
-    title: 'Phone Repair',
-    desc: 'Expert repair services for all brands. Fast turnaround, quality parts, trusted hands.',
-    items: ['Screen Replacement', 'Battery Replacement', 'Charging Port Repair', 'Speaker & Mic Fix', 'Software Issues'],
-  },
-  {
-    icon: '🖨️',
-    title: 'Printing & Photocopy',
-    desc: 'Black & white and colour printing for all your document and academic needs.',
-    items: ['Black & White Photocopy', 'Colour Photocopy', 'Document Printing', 'A4 / A3 / Legal Sizes', 'Bulk Printing'],
-  },
-  {
-    icon: '📸',
-    title: 'Photo Services',
-    desc: 'Professional passport photos, photo prints, and framing for every occasion.',
-    items: ['Passport Size Photos', 'Photo Printing', 'Photo Framing', 'ID Card Photos', 'Custom Size Prints'],
-  },
-  {
-    icon: '📄',
-    title: 'Document Services',
-    desc: 'Scanning, PDF creation, CV writing and all your professional document needs.',
-    items: ['Document Scanning', 'PDF Creation', 'CV / Resume Writing', 'Lamination', 'Spiral Binding'],
-  },
-  {
-    icon: '💻',
-    title: 'Digital Services',
-    desc: 'Digital assistance for forms, applications, and everyday digital tasks.',
-    items: ['Form Filling', 'Email & Print', 'File Conversion', 'Data Entry', 'USB / Memory Card'],
-  },
+    {
+        icon: IconDeviceMobile,
+        title: 'Mobile Accessories',
+        desc: 'Earphones, chargers, tempered glass, cables, and all mobile essentials.',
+        items: ['Earphones & Headphones', 'Chargers & Cables', 'Tempered Glass'],
+    },
+    {
+        icon: IconTool,
+        title: 'Phone Repair',
+        desc: 'Expert repair services for all brands. Fast turnaround, quality parts, trusted hands.',
+        items: ['Screen Replacement', 'Battery Replacement', 'Charging Port Repair', 'Speaker & Mic Fix', 'Software Issues'],
+    },
+    {
+        icon: IconPrinter,
+        title: 'Printing & Photocopy',
+        desc: 'Black & white and colour printing for all your document and academic needs.',
+        items: ['Black & White Photocopy', 'Colour Photocopy', 'Document Printing', 'A4', 'Bulk Printing'],
+    },
+    {
+        icon: IconCamera,
+        title: 'Photo Services',
+        desc: 'Professional passport photos, photo prints, and framing for every occasion.',
+        items: ['Passport Size Photos', 'Photo Printing', 'Photo Framing', 'ID Card Photos', 'Custom Size Prints', 'Cup Prints'],
+    },
+    {
+        icon: IconFileText,
+        title: 'Document Services',
+        desc: 'Scanning, PDF creation, CV writing and all your professional document needs.',
+        items: ['Document Scanning', 'PDF Creation', 'CV / Resume Writing', 'Lamination'],
+    },
+    {
+        icon: IconDeviceLaptop,
+        title: 'Digital Services',
+        desc: 'Digital assistance for forms, applications, and everyday digital tasks.',
+        items: ['Form Filling', 'Email & Print', 'File Conversion', 'Data Entry'],
+    },
 ]
 
-const stats = [
-  { value: '1000+', label: 'Happy Customers' },
-  { value: '500+', label: 'Repairs Done' },
-  { value: '5+', label: 'Years of Service' },
-  { value: '24hr', label: 'Fast Turnaround' },
+const qualities = [
+    { icon: IconBolt, title: 'Fast Service', desc: 'Quick mobile repairs and print jobs' },
+    { icon: IconDiamond, title: 'Quality First', desc: 'Only genuine parts and professional-grade materials' },
+    { icon: IconCoin, title: 'Fair Pricing', desc: 'Transparent rates, no hidden charges' },
+    { icon: IconUsers, title: 'Trusted', desc: 'Thousands of satisfied customers in Dharan' },
 ]
+
+function useInView(threshold = 0.15) {
+    const ref = useRef<HTMLDivElement>(null)
+    const [visible, setVisible] = useState(false)
+    useEffect(() => {
+        const el = ref.current
+        if (!el) return
+        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } }, { threshold })
+        obs.observe(el)
+        return () => obs.disconnect()
+    }, [threshold])
+    return { ref, visible }
+}
+
+function FadeIn({ children, delay = 0, style = {} }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) {
+    const { ref, visible } = useInView()
+    return (
+        <div ref={ref} style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(24px)',
+            transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+            ...style,
+        }}>
+            {children}
+        </div>
+    )
+}
+
+function useIsOpen() {
+    const [status, setStatus] = useState<{ open: boolean; label: string }>({ open: false, label: '' })
+    useEffect(() => {
+        function check() {
+            const now = new Date()
+            const hours = now.getHours()
+            const minutes = now.getMinutes()
+            const total = hours * 60 + minutes
+            const open = total >= 8 * 60 && total < 19 * 60
+            const label = open ? 'Open Now' : 'Closed'
+            setStatus({ open, label })
+        }
+        check()
+        const id = setInterval(check, 60000)
+        return () => clearInterval(id)
+    }, [])
+    return status
+}
 
 export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false)
+    const { open, label } = useIsOpen()
 
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', handler)
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
+    useEffect(() => {
+        const handler = () => setScrolled(window.scrollY > 40)
+        window.addEventListener('scroll', handler)
+        return () => window.removeEventListener('scroll', handler)
+    }, [])
 
-  return (
-    <div className="min-h-screen">
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-navy-900 shadow-lg py-3' : 'bg-transparent py-5'
-        }`}
-        style={{ backgroundColor: scrolled ? 'var(--navy-900)' : 'transparent' }}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-sm"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #fcd34d)', color: '#0a1230' }}
-            >
-              A
-            </div>
-            <div>
-              <div className="font-display font-semibold text-white text-sm leading-tight">Annapurna</div>
-              <div className="text-xs leading-tight" style={{ color: 'var(--gold-400)' }}>Mobile Care</div>
-            </div>
-          </div>
+    return (
+        <div style={{ fontFamily: 'system-ui, sans-serif' }}>
 
-          <div className="hidden md:flex items-center gap-8">
-            {['Services', 'About', 'Location', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="nav-link text-sm font-medium text-white/80 hover:text-white"
-              >
-                {item}
-              </a>
-            ))}
-            <Link
-              href="/admin"
-              className="text-xs px-4 py-2 rounded-full border border-white/20 text-white/60 hover:border-yellow-400 hover:text-yellow-400 transition-all"
-            >
-              Admin
-            </Link>
-          </div>
-
-          <button
-            className="md:hidden text-white p-2"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <div className={`w-5 h-0.5 bg-white mb-1 transition-all ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-            <div className={`w-5 h-0.5 bg-white mb-1 transition-all ${menuOpen ? 'opacity-0' : ''}`} />
-            <div className={`w-5 h-0.5 bg-white transition-all ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
-          </button>
-        </div>
-
-        {menuOpen && (
-          <div className="md:hidden px-6 pb-4" style={{ backgroundColor: 'var(--navy-900)' }}>
-            {['Services', 'About', 'Location', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="block py-2 text-white/80 text-sm"
-                onClick={() => setMenuOpen(false)}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-        )}
-      </nav>
-
-      <section className="hero-bg min-h-screen flex items-center relative" id="home">
-        <div className="max-w-6xl mx-auto px-6 py-32 relative z-10">
-          <div className="max-w-3xl">
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium mb-8 animate-fade-in-up"
-              style={{ backgroundColor: 'rgba(245,158,11,0.15)', color: 'var(--gold-400)', border: '1px solid rgba(245,158,11,0.3)' }}
-            >
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Open Now · Dharan-16, Annapurna Chowk
-            </div>
-
-            <h1 className="font-display text-5xl md:text-7xl font-bold text-white leading-tight mb-6 animate-fade-in-up animate-delay-100">
-              Your Trusted<br />
-              <span className="gold-text">Tech & Print</span><br />
-              Partner
-            </h1>
-
-            <p className="text-white/70 text-lg md:text-xl mb-10 max-w-xl animate-fade-in-up animate-delay-200">
-              From mobile accessories and repairs to printing, photos, and document services — everything you need, right here in Dharan.
-            </p>
-
-            <div className="flex flex-wrap gap-4 animate-fade-in-up animate-delay-300">
-              <a
-                href="#services"
-                className="px-8 py-4 rounded-full font-semibold text-sm transition-all hover:scale-105 hover:shadow-lg"
-                style={{ background: 'linear-gradient(135deg, #f59e0b, #fcd34d)', color: '#0a1230' }}
-              >
-                View Our Services
-              </a>
-              <a
-                href="#contact"
-                className="px-8 py-4 rounded-full font-medium text-sm text-white border border-white/25 hover:border-yellow-400 hover:text-yellow-400 transition-all"
-              >
-                Get In Touch
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce">
-          <span className="text-white/40 text-xs">Scroll</span>
-          <div className="w-0.5 h-8 bg-gradient-to-b from-white/40 to-transparent" />
-        </div>
-      </section>
-
-      <section className="py-16" style={{ backgroundColor: '#f8f9ff' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((s, i) => (
-              <div key={i} className="text-center p-6 rounded-2xl bg-white shadow-sm border border-gray-100">
-                <div className="font-display text-4xl font-bold mb-1" style={{ color: 'var(--navy-700)' }}>{s.value}</div>
-                <div className="text-sm text-gray-500 font-medium">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="services" className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-600)' }}>
-              What We Offer
-            </div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4" style={{ color: 'var(--navy-800)' }}>
-              Our Services
-            </h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
-              A complete range of mobile, tech, and printing services — all under one roof.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((s, i) => (
-              <div key={i} className="service-card rounded-2xl p-6 bg-white">
-                <div className="text-4xl mb-4">{s.icon}</div>
-                <h3 className="font-display text-xl font-semibold mb-2" style={{ color: 'var(--navy-800)' }}>{s.title}</h3>
-                <p className="text-gray-500 text-sm mb-4">{s.desc}</p>
-                <ul className="space-y-1">
-                  {s.items.map((item, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm text-gray-600">
-                      <span style={{ color: 'var(--gold-500)' }}>✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="about" className="py-24" style={{ backgroundColor: 'var(--navy-900)' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-400)' }}>
-                About Us
-              </div>
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
-                Built on Trust,<br />
-                <span className="gold-text">Driven by Service</span>
-              </h2>
-              <p className="text-white/70 mb-4 leading-relaxed">
-                Annapurna Mobile Care has been serving the people of Dharan for years, offering reliable mobile accessories, professional repair services, and comprehensive printing solutions.
-              </p>
-              <p className="text-white/70 leading-relaxed">
-                We believe in honest pricing, quality work, and making technology accessible to everyone. Walk in with a problem, walk out with a solution.
-              </p>
-
-              <div className="mt-8 flex items-center gap-4">
-                <div className="h-px flex-1" style={{ backgroundColor: 'rgba(245,158,11,0.3)' }} />
-                <span className="text-sm" style={{ color: 'var(--gold-400)' }}>Annapurna Chowk, Dharan-16</span>
-                <div className="h-px flex-1" style={{ backgroundColor: 'rgba(245,158,11,0.3)' }} />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: '⚡', title: 'Fast Service', desc: 'Quick turnaround on all repairs and print jobs' },
-                { icon: '💎', title: 'Quality First', desc: 'Only genuine parts and professional-grade materials' },
-                { icon: '💰', title: 'Fair Pricing', desc: 'Transparent rates, no hidden charges' },
-                { icon: '🤝', title: 'Trusted', desc: 'Hundreds of satisfied customers in Dharan' },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="p-5 rounded-xl"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(245,158,11,0.15)' }}
-                >
-                  <div className="text-2xl mb-2">{item.icon}</div>
-                  <div className="font-semibold text-white text-sm mb-1">{item.title}</div>
-                  <div className="text-white/50 text-xs">{item.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="location" className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-600)' }}>
-              Find Us
-            </div>
-            <h2 className="font-display text-4xl font-bold mb-4" style={{ color: 'var(--navy-800)' }}>
-              Our Location
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              {[
-                { icon: '📍', label: 'Address', value: 'Annapurna Chowk, Dharan-16\nSunsari, Koshi Province, Nepal' },
-                { icon: '🕐', label: 'Hours', value: 'Sunday – Friday: 7:00 AM – 8:00 PM\nSaturday: 8:00 AM – 6:00 PM' },
-              ].map((item, i) => (
-                <div key={i} className="flex gap-4 p-5 rounded-xl" style={{ backgroundColor: '#f8f9ff', border: '1px solid rgba(30,58,138,0.08)' }}>
-                  <div className="text-2xl mt-0.5">{item.icon}</div>
-                  <div>
-                    <div className="font-semibold text-sm mb-1" style={{ color: 'var(--navy-700)' }}>{item.label}</div>
-                    <div className="text-gray-600 text-sm whitespace-pre-line">{item.value}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100" style={{ height: '360px' }}>
-              <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=87.26,26.79,87.30,26.82&layer=mapnik&marker=26.805,87.280"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                loading="lazy"
-                title="Annapurna Mobile Care Location"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="py-24" style={{ backgroundColor: '#f8f9ff' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-600)' }}>
-              Reach Out
-            </div>
-            <h2 className="font-display text-4xl font-bold mb-4" style={{ color: 'var(--navy-800)' }}>
-              Contact Us
-            </h2>
-            <p className="text-gray-500">Have a question? We're just a message away.</p>
-          </div>
-
-          <div className="max-w-lg mx-auto">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <div className="space-y-4 mb-8">
-                {[
-                  { icon: '📍', label: 'Visit Us', value: 'Annapurna Chowk, Dharan-16' },
-                  { icon: '🕐', label: 'Business Hours', value: 'Sun–Fri 7AM–8PM · Sat 8AM–6PM' },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <span className="text-lg mt-0.5">{item.icon}</span>
-                    <div>
-                      <div className="font-medium text-sm" style={{ color: 'var(--navy-700)' }}>{item.label}</div>
-                      <div className="text-gray-500 text-sm">{item.value}</div>
+            {/* NAV */}
+            <nav style={{
+                position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+                transition: 'all 0.3s',
+                backgroundColor: scrolled ? '#000' : 'transparent',
+                borderBottom: scrolled ? '1px solid #1a1a1a' : 'none',
+                padding: scrolled ? '12px 0' : '20px 0',
+            }}>
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 14, color: '#000' }}>A</div>
+                        <div>
+                            <div style={{ fontWeight: 700, color: '#fff', fontSize: 13, lineHeight: 1.2 }}>Annapurna</div>
+                            <div style={{ color: '#fbbf24', fontSize: 10, lineHeight: 1.2 }}>Mobile Care</div>
+                        </div>
                     </div>
-                  </div>
-                ))}
-              </div>
 
-              <div
-                className="p-4 rounded-xl text-center text-sm"
-                style={{ backgroundColor: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}
-              >
-                <span style={{ color: 'var(--gold-600)' }}>
-                  Walk in anytime during business hours — we're always happy to help!
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 32 }} id="desktop-nav">
+                        {['Services', 'About', 'Location', 'Contact'].map(item => (
+                            <a key={item} href={`#${item.toLowerCase()}`} style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 500, textDecoration: 'none' }}
+                                onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}>
+                                {item}
+                            </a>
+                        ))}
+                        <Link href="/admin" style={{ fontSize: 11, padding: '6px 14px', borderRadius: 6, background: 'rgba(239,68,68,0.15)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)', textDecoration: 'none', fontWeight: 600 }}
+                            onMouseEnter={e => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = '#fff' }}
+                            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.15)'; e.currentTarget.style.color = '#ef4444' }}>
+                            Admin
+                        </Link>
+                    </div>
 
-      <footer style={{ backgroundColor: 'var(--navy-900)' }} className="py-10">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center font-display font-bold text-xs"
-              style={{ background: 'linear-gradient(135deg, #f59e0b, #fcd34d)', color: '#0a1230' }}
-            >
-              A
-            </div>
-            <div>
-              <div className="font-display font-semibold text-white text-sm">Annapurna Mobile Care</div>
-              <div className="text-xs text-white/40">Dharan-16, Annapurna Chowk</div>
-            </div>
-          </div>
-          <div className="text-white/30 text-xs">
-            © {new Date().getFullYear()} Annapurna Mobile Care. All rights reserved.
-          </div>
-          <Link href="/admin" className="text-xs text-white/30 hover:text-yellow-400 transition-colors">
-            Admin Login
-          </Link>
+                    <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', padding: 4 }} id="mobile-btn">
+                        {menuOpen ? <IconX size={22} /> : <IconMenu2 size={22} />}
+                    </button>
+                </div>
+
+                {menuOpen && (
+                    <div style={{ backgroundColor: '#000', padding: '12px 24px 20px', borderTop: '1px solid #1a1a1a' }}>
+                        {['Services', 'About', 'Location', 'Contact'].map(item => (
+                            <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                                style={{ display: 'block', padding: '10px 0', color: 'rgba(255,255,255,0.7)', fontSize: 13, textDecoration: 'none', borderBottom: '1px solid #111' }}>
+                                {item}
+                            </a>
+                        ))}
+                        <Link href="/admin" onClick={() => setMenuOpen(false)}
+                            style={{ display: 'inline-block', marginTop: 12, fontSize: 11, padding: '6px 14px', borderRadius: 6, background: 'rgba(239,68,68,0.15)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)', textDecoration: 'none', fontWeight: 600 }}>
+                            Admin
+                        </Link>
+                    </div>
+                )}
+            </nav>
+
+            {/* HERO - black */}
+            <section id="home" style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: '10%', right: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(251,191,36,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '120px 24px 80px' }}>
+                    <div style={{ maxWidth: 680 }}>
+                        <div className="animate-fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 100, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.25)', marginBottom: 32 }}>
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: open ? '#4ade80' : '#ef4444', display: 'inline-block' }} />
+                            <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 500 }}>{label} · Dharan-16, Annapurna Chowk</span>
+                        </div>
+
+                        <h1 className="animate-fade-in-up animate-delay-100" style={{ fontSize: 'clamp(40px, 7vw, 80px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: 24, letterSpacing: '-1px' }}>
+                            Your Trusted<br />
+                            <span style={{ color: '#fbbf24' }}>Tech & Print</span><br />
+                            Partner
+                        </h1>
+
+                        <p className="animate-fade-in-up animate-delay-200" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 17, lineHeight: 1.7, marginBottom: 40, maxWidth: 520 }}>
+                            From mobile accessories and repairs to printing, photos, and document services - everything you need, right here in Dharan.
+                        </p>
+
+                        <div className="animate-fade-in-up animate-delay-300" style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                            <a href="#services" style={{ padding: '14px 28px', borderRadius: 8, fontWeight: 700, fontSize: 13, background: '#fbbf24', color: '#000', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+                                onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+                                View Our Services
+                            </a>
+                            <a href="#contact" style={{ padding: '14px 28px', borderRadius: 8, fontWeight: 600, fontSize: 13, background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)'}
+                                onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'}>
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, animation: 'bounce 2s infinite' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase' }}>Scroll</span>
+                    <IconArrowDown size={16} color="rgba(255,255,255,0.25)" />
+                </div>
+            </section>
+
+            {/* SERVICES - white */}
+            <section id="services" style={{ padding: '96px 0', background: '#fff' }}>
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
+                    <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>What We Offer</div>
+                        <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#000', marginBottom: 16, letterSpacing: '-0.5px' }}>Our Services</h2>
+                        <p style={{ color: '#777', maxWidth: 480, margin: '0 auto', fontSize: 15, lineHeight: 1.6 }}>
+                            A complete range of mobile, tech, and printing services - all under one roof.
+                        </p>
+                    </FadeIn>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #e5e5e5', borderRadius: 16, overflow: 'hidden' }}>
+                        {services.map((s, i) => {
+                            const Icon = s.icon
+                            return (
+                                <FadeIn key={i} delay={i * 60} style={{ padding: '32px 28px', background: '#fff', borderRight: i % 3 !== 2 ? '1px solid #e5e5e5' : 'none', borderBottom: i < 3 ? '1px solid #e5e5e5' : 'none' }}>
+                                    <div style={{ width: 44, height: 44, borderRadius: 10, background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                                        <Icon size={22} color="#fbbf24" />
+                                    </div>
+                                    <h3 style={{ fontSize: 16, fontWeight: 700, color: '#000', marginBottom: 8 }}>{s.title}</h3>
+                                    <p style={{ color: '#888', fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>{s.desc}</p>
+                                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                        {s.items.map((item, j) => (
+                                            <li key={j} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#555' }}>
+                                                <IconCheck size={13} color="#fbbf24" strokeWidth={3} />
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </FadeIn>
+                            )
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* ABOUT - black */}
+            <section id="about" style={{ padding: '96px 0', background: '#000' }}>
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+                        <FadeIn>
+                            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 16 }}>About Us</div>
+                            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.5px' }}>
+                                Annapurna Mobile Care,<br />
+                                <span style={{ color: '#fbbf24' }}>Since 2010</span>
+                            </h2>
+                            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.8, marginBottom: 16 }}>
+                                Annapurna Mobile Care has been serving the people of Dharan for years, offering reliable mobile accessories, professional repair services, and comprehensive printing solutions.
+                            </p>
+                            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.8 }}>
+                                We believe in honest pricing, quality work, and making technology accessible to everyone.
+                            </p>
+                            <div style={{ marginTop: 32, display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <div style={{ height: 1, flex: 1, background: 'rgba(251,191,36,0.2)' }} />
+                                <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 500 }}>Annapurna Chowk, Dharan-16</span>
+                                <div style={{ height: 1, flex: 1, background: 'rgba(251,191,36,0.2)' }} />
+                            </div>
+                        </FadeIn>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            {qualities.map((q, i) => {
+                                const Icon = q.icon
+                                return (
+                                    <FadeIn key={i} delay={i * 80}>
+                                        <div style={{ padding: '24px 20px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', transition: 'border-color 0.2s', height: '100%' }}
+                                            onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(251,191,36,0.3)'}
+                                            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}>
+                                            <Icon size={24} color="#fbbf24" style={{ marginBottom: 12 }} />
+                                            <div style={{ fontWeight: 600, color: '#fff', fontSize: 13, marginBottom: 4 }}>{q.title}</div>
+                                            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, lineHeight: 1.5 }}>{q.desc}</div>
+                                        </div>
+                                    </FadeIn>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* LOCATION - white */}
+            <section id="location" style={{ padding: '96px 0', background: '#fff' }}>
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
+                    <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>Find Us</div>
+                        <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#000', letterSpacing: '-0.5px' }}>Our Location</h2>
+                    </FadeIn>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
+                        <FadeIn style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                            {[
+                                { icon: IconMapPin, label: 'Address', value: 'Annapurna Chowk, Dharan-16\nSunsari, Koshi Province, Nepal' },
+                                { icon: IconClock, label: 'Hours', value: 'Everyday: 8:00 AM – 7:00 PM' },
+                            ].map((item, i) => {
+                                const Icon = item.icon
+                                return (
+                                    <div key={i} style={{ display: 'flex', gap: 16, padding: '20px 24px', borderRadius: 12, background: '#f9f9f9', border: '1px solid #eee' }}>
+                                        <div style={{ width: 40, height: 40, borderRadius: 8, background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                            <Icon size={18} color="#fbbf24" />
+                                        </div>
+                                        <div>
+                                            <div style={{ fontWeight: 600, fontSize: 11, color: '#000', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>{item.label}</div>
+                                            <div style={{ color: '#555', fontSize: 13, lineHeight: 1.6, whiteSpace: 'pre-line' }}>{item.value}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </FadeIn>
+
+                        <FadeIn delay={100}>
+                            <div style={{ borderRadius: 16, overflow: 'hidden', height: 360, border: '1px solid #e5e5e5' }}>
+                                <iframe
+                                    src="https://www.openstreetmap.org/export/embed.html?bbox=87.2787,26.8172,87.2818,26.8189&layer=mapnik&marker=26.81811,87.28030"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    title="Annapurna Mobile Care Location"
+                                />
+                            </div>
+                        </FadeIn>
+                    </div>
+                </div>
+            </section>
+
+            {/* CONTACT - black */}
+            <section id="contact" style={{ padding: '96px 0', background: '#000' }}>
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
+                    <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 12 }}>Reach Out</div>
+                        <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px', marginBottom: 12 }}>Contact Us</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 14 }}>We&apos;re just a call or message away.</p>
+                    </FadeIn>
+
+                    <div style={{ maxWidth: 480, margin: '0 auto' }}>
+                        <FadeIn>
+                            <div style={{ borderRadius: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {[
+                                    { icon: IconPhone, label: 'Phone', value: '+9779842415795', href: 'tel:9842415795' },
+                                    { icon: IconPhone, label: 'Phone', value: '+9779802388360', href: 'tel:9802388360' },
+                                    { icon: IconBrandWhatsapp, label: 'WhatsApp', value: '+9779842415795', href: 'https://wa.me/9779842415795' },
+                                    { icon: IconMail, label: 'Email', value: 'annapurnamobilec@gmail.com', href: 'mailto:annapurnamobilec@gmail.com' },
+                                ].map((item, i) => {
+                                    const Icon = item.icon
+                                    return (
+                                        <a key={i} href={item.href} target="_blank" rel="noopener noreferrer"
+                                            style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', textDecoration: 'none', transition: 'all 0.2s' }}
+                                            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(251,191,36,0.4)'; e.currentTarget.style.background = 'rgba(251,191,36,0.05)' }}
+                                            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}>
+                                            <div style={{ width: 40, height: 40, borderRadius: 8, background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                                <Icon size={18} color="#000" />
+                                            </div>
+                                            <div>
+                                                <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 2 }}>{item.label}</div>
+                                                <div style={{ fontSize: 14, fontWeight: 500, color: '#fff' }}>{item.value}</div>
+                                            </div>
+                                        </a>
+                                    )
+                                })}
+                            </div>
+                        </FadeIn>
+                    </div>
+                </div>
+            </section>
+
+            {/* FOOTER */}
+            <footer style={{ background: '#000', borderTop: '1px solid #111', padding: '32px 0' }}>
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#fbbf24', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 12, color: '#000' }}>A</div>
+                        <div>
+                            <div style={{ fontWeight: 700, color: '#fff', fontSize: 12 }}>Annapurna Mobile Care</div>
+                            <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: 10 }}>Dharan-16, Annapurna Chowk</div>
+                        </div>
+                    </div>
+                    <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 11 }}>
+                        © {new Date().getFullYear()} Annapurna Mobile Care. All rights reserved.
+                    </div>
+                    <Link href="/admin" style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', textDecoration: 'none' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#ef4444'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}>
+                        Admin Login
+                    </Link>
+                </div>
+            </footer>
+
+            <style>{`
+        #mobile-btn { display: none; }
+        @media (max-width: 768px) {
+          #desktop-nav { display: none !important; }
+          #mobile-btn { display: flex !important; }
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateX(-50%) translateY(0); }
+          50% { transform: translateX(-50%) translateY(8px); }
+        }
+      `}</style>
         </div>
-      </footer>
-    </div>
-  )
+    )
 }
