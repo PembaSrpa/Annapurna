@@ -196,9 +196,9 @@ export default function HomePage() {
                         </div>
 
                         <h1 className="animate-fade-in-up animate-delay-100" style={{ fontSize: 'clamp(40px, 7vw, 80px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: 24, letterSpacing: '-1px' }}>
-                            Your Trusted<br />
-                            <span style={{ color: '#fbbf24' }}>Tech & Print</span><br />
-                            Partner
+                            Annapurna<br />
+                            <span style={{ color: '#fbbf24' }}>Mobile Care</span><br />
+                            Your Tech & Print <span style={{ color: '#fbbf24' }}>Partner</span><br />
                         </h1>
 
                         <p className="animate-fade-in-up animate-delay-200" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 17, lineHeight: 1.7, marginBottom: 40, maxWidth: 520 }}>
@@ -233,7 +233,7 @@ export default function HomePage() {
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>What We Offer</div>
                         <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#000', marginBottom: 16, letterSpacing: '-0.5px' }}>Our Services</h2>
                         <p style={{ color: '#777', maxWidth: 480, margin: '0 auto', fontSize: 15, lineHeight: 1.6 }}>
-                            A complete range of mobile, tech, and printing services - all under one roof.
+                            A complete range of mobile, tech, and printing services.
                         </p>
                     </FadeIn>
 
@@ -297,11 +297,11 @@ export default function HomePage() {
                                 {qualities.map((q, i) => {
                                     const Icon = q.icon
                                     return (
-                                        <div key={i} style={{ padding: '16px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', transition: 'border-color 0.2s' }}
+                                        <div key={i} style={{ padding: '8px 7px', borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', transition: 'border-color 0.2s' }}
                                             onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(251,191,36,0.3)'}
                                             onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'}>
                                             <Icon size={18} color="#fbbf24" style={{ marginBottom: 8 }} />
-                                            <div style={{ fontWeight: 600, color: '#fff', fontSize: 12, marginBottom: 2 }}>{q.title}</div>
+                                            <div style={{ fontWeight: 600, color: '#fff', fontSize: 12, marginBottom: 1 }}>{q.title}</div>
                                         </div>
                                     )
                                 })}
