@@ -146,7 +146,7 @@ function StatCards({ entries }: { entries: Entry[] }) {
     ]
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 20 }}>
+        <><div id="stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 20, overflowX: 'auto' }}>
             {cards.map(c => (
                 <div key={c.label} style={{ background: B900, border: `1px solid ${c.border}`, borderRadius: 9, padding: '11px 13px' }}>
                     <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.6px', color: N400, marginBottom: 5 }}>
@@ -155,7 +155,20 @@ function StatCards({ entries }: { entries: Entry[] }) {
                     <div style={{ fontSize: 13, fontWeight: 600, color: c.accent }}>{c.val}</div>
                 </div>
             ))}
-        </div>
+        </div><style>{`
+                @media (max-width: 768px) {
+                    #sidebar-toggle { display: flex !important; }
+                    #sidebar {
+                        position: fixed !important;
+                        top: 0 !important; bottom: 0 !important;
+                        z-index: 41 !important;
+                        overflow-y: auto !important;
+                        transition: transform 0.25s ease !important;
+                    }
+                    #main-content { padding: 12px !important; }
+                    #stat-grid { grid-template-columns: repeat(4, minmax(120px, 1fr)) !important; overflow-x: auto !important; }
+                }
+            `}</style></>
     )
 }
 
@@ -595,6 +608,7 @@ export default function Dashboard() {
     const [allEntries, setAllEntries] = useState<Record<string, Entry[]>>({})
     const [loading, setLoading] = useState(true)
     const [pane, setPane] = useState<'entries' | 'analysis'>('entries')
+    const [sidebarOpen, setSidebarOpen] = useState(false)
     const [showForm, setShowForm] = useState(false)
     const [editTarget, setEditTarget] = useState<Entry | null>(null)
     const [deleteId, setDeleteId] = useState<number | null>(null)
@@ -659,24 +673,25 @@ export default function Dashboard() {
     return (
         <div style={{ background: N900, minHeight: '100vh', display: 'flex', flexDirection: 'column', color: N300, fontFamily: 'system-ui, sans-serif' }}>
 
-            <nav style={{ background: B900, borderBottom: `1px solid ${N700}`, padding: '11px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: B100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: N900 }}>A</div>
+            <nav style={{ background: B900, borderBottom: `1px solid ${N700}`, padding: '11px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, gap: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <button onClick={() => setSidebarOpen(o => !o)} id="sidebar-toggle" style={{ background: N800, border: `1px solid ${N600}`, borderRadius: 6, color: N300, cursor: 'pointer', padding: '5px 8px', fontSize: 16, lineHeight: 1, display: 'none' }}>☰</button>
+                    <div style={{ width: 30, height: 30, borderRadius: '50%', background: B100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: N900, flexShrink: 0 }}>A</div>
                     <div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: N200 }}>Annapurna Mobile Care</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: N200 }}>Annapurna Mobile Care</div>
                         <div style={{ fontSize: 10, color: N400, marginTop: 1 }}>Finance Dashboard</div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                     <button
                         onClick={() => { window.location.href = `/api/export?month=${month}&year=${year}` }}
-                        style={{ ...yellowBtn({ padding: '7px 14px', fontSize: 11, borderRadius: 7 }) }}
+                        style={{ ...yellowBtn({ padding: '6px 12px', fontSize: 11, borderRadius: 7 }) }}
                     >
-                        ↓ Export Excel
+                        ↓ Export
                     </button>
                     <button
                         onClick={async () => { await fetch('/api/auth/logout', { method: 'POST' }); router.push('/admin') }}
-                        style={{ ...ghostBtn({ padding: '7px 14px', fontSize: 11, borderRadius: 7 }) }}
+                        style={{ ...ghostBtn({ padding: '6px 12px', fontSize: 11, borderRadius: 7 }) }}
                     >
                         Logout
                     </button>
@@ -684,7 +699,14 @@ export default function Dashboard() {
             </nav>
 
             <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-                <div style={{ width: 185, flexShrink: 0, background: B900, borderRight: `1px solid ${N700}`, padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {sidebarOpen && (
+                    <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 40 }} />
+                )}
+                <div id="sidebar" style={{
+                    width: 185, flexShrink: 0, background: B900, borderRight: `1px solid ${N700}`,
+                    padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: 4,
+                    transform: sidebarOpen ? 'translateX(0)' : undefined,
+                }}>
                     <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.8px', color: N500, padding: '0 10px 8px' }}>Menu</div>
 
                     <NavItem active={pane === 'entries'} onClick={() => setPane('entries')}>
@@ -727,7 +749,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div style={{ flex: 1, overflowY: 'auto', padding: 20 }}>
+                <div id="main-content" style={{ flex: 1, overflowY: 'auto', padding: 20, minWidth: 0 }}>
                     {loading ? (
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 300, color: N500, fontSize: 13 }}>Loading...</div>
                     ) : (

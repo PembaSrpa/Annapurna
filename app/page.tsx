@@ -64,10 +64,10 @@ const services = [
 ]
 
 const qualities = [
-    { icon: IconBolt, title: 'Fast Service', desc: 'Quick mobile repairs and print jobs' },
-    { icon: IconDiamond, title: 'Quality First', desc: 'Only genuine parts and professional-grade materials' },
-    { icon: IconCoin, title: 'Fair Pricing', desc: 'Transparent rates, no hidden charges' },
-    { icon: IconUsers, title: 'Trusted', desc: 'Thousands of satisfied customers in Dharan' },
+    { icon: IconBolt, title: 'Fast Service' },
+    { icon: IconDiamond, title: 'Quality First' },
+    { icon: IconCoin, title: 'Fair Pricing' },
+    { icon: IconUsers, title: 'Trusted' },
 ]
 
 function useInView(threshold = 0.15) {
@@ -183,11 +183,13 @@ export default function HomePage() {
                 )}
             </nav>
 
-            {/* HERO - black */}
+            {/* HERO - black with mountain */}
             <section id="home" style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: '10%', right: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(251,191,36,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
-                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '120px 24px 80px' }}>
-                    <div style={{ maxWidth: 680 }}>
+                <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/annapurna.jpg)', backgroundSize: 'cover', backgroundPosition: 'center bottom', backgroundRepeat: 'no-repeat', opacity: 0.55 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 75%, #000 100%)' }} />
+                <div style={{ position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)', width: 600, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ maxWidth: 1152, margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1, width: '100%' }}>
+                    <div style={{ maxWidth: 680, position: 'relative' }}>
                         <div className="animate-fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 100, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.25)', marginBottom: 32 }}>
                             <span style={{ width: 6, height: 6, borderRadius: '50%', background: open ? '#4ade80' : '#ef4444', display: 'inline-block' }} />
                             <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 500 }}>{label} · Dharan-16, Annapurna Chowk</span>
@@ -235,7 +237,7 @@ export default function HomePage() {
                         </p>
                     </FadeIn>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #e5e5e5', borderRadius: 16, overflow: 'hidden' }}>
+                    <div id="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #e5e5e5', borderRadius: 16, overflow: 'hidden' }}>
                         {services.map((s, i) => {
                             const Icon = s.icon
                             return (
@@ -263,7 +265,7 @@ export default function HomePage() {
             {/* ABOUT - black */}
             <section id="about" style={{ padding: '96px 0', background: '#000' }}>
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+                    <div id="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
                         <FadeIn>
                             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 16 }}>About Us</div>
                             <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.5px' }}>
@@ -283,22 +285,28 @@ export default function HomePage() {
                             </div>
                         </FadeIn>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                            {qualities.map((q, i) => {
-                                const Icon = q.icon
-                                return (
-                                    <FadeIn key={i} delay={i * 80}>
-                                        <div style={{ padding: '24px 20px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', transition: 'border-color 0.2s', height: '100%' }}
+                        <FadeIn delay={120}>
+                            <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)', position: 'relative' }}>
+                                <img src="/shop-placeholder.svg" alt="Annapurna Mobile Care shop" style={{ width: '100%', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }} />
+                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 20px 16px', background: 'linear-gradient(to top, rgba(0,0,0,0.92), transparent)' }}>
+                                    <div style={{ color: '#fbbf24', fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 3 }}>Our Shop</div>
+                                    <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12 }}>Annapurna Chowk, Dharan-16</div>
+                                </div>
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
+                                {qualities.map((q, i) => {
+                                    const Icon = q.icon
+                                    return (
+                                        <div key={i} style={{ padding: '16px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', transition: 'border-color 0.2s' }}
                                             onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(251,191,36,0.3)'}
-                                            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}>
-                                            <Icon size={24} color="#fbbf24" style={{ marginBottom: 12 }} />
-                                            <div style={{ fontWeight: 600, color: '#fff', fontSize: 13, marginBottom: 4 }}>{q.title}</div>
-                                            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, lineHeight: 1.5 }}>{q.desc}</div>
+                                            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'}>
+                                            <Icon size={18} color="#fbbf24" style={{ marginBottom: 8 }} />
+                                            <div style={{ fontWeight: 600, color: '#fff', fontSize: 12, marginBottom: 2 }}>{q.title}</div>
                                         </div>
-                                    </FadeIn>
-                                )
-                            })}
-                        </div>
+                                    )
+                                })}
+                            </div>
+                        </FadeIn>
                     </div>
                 </div>
             </section>
@@ -311,7 +319,7 @@ export default function HomePage() {
                         <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#000', letterSpacing: '-0.5px' }}>Our Location</h2>
                     </FadeIn>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
+                    <div id="location-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
                         <FadeIn style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             {[
                                 { icon: IconMapPin, label: 'Address', value: 'Annapurna Chowk, Dharan-16\nSunsari, Koshi Province, Nepal' },
@@ -414,6 +422,10 @@ export default function HomePage() {
         @media (max-width: 768px) {
           #desktop-nav { display: none !important; }
           #mobile-btn { display: flex !important; }
+          #services-grid { grid-template-columns: 1fr !important; }
+          #about-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          #location-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+          #hero-content { padding: 100px 20px 60px !important; }
         }
         @keyframes bounce {
           0%, 100% { transform: translateX(-50%) translateY(0); }

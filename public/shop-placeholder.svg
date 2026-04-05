@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="sign" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0d0d0d" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="500" fill="url(#bg)"/>
+
+  <!-- ground -->
+  <rect x="0" y="400" width="600" height="100" fill="#0a0a0a"/>
+  <rect x="0" y="395" width="600" height="8" fill="#1a1a1a"/>
+
+  <!-- building wall -->
+  <rect x="60" y="120" width="480" height="280" rx="4" fill="url(#wall)"/>
+
+  <!-- roof -->
+  <rect x="40" y="100" width="520" height="28" rx="4" fill="#222222"/>
+  <rect x="55" y="108" width="490" height="12" rx="2" fill="#2a2a2a"/>
+
+  <!-- sign board -->
+  <rect x="100" y="130" width="400" height="70" rx="6" fill="url(#sign)"/>
+  <text x="300" y="158" font-family="system-ui, sans-serif" font-size="18" font-weight="800" text-anchor="middle" fill="#000">ANNAPURNA</text>
+  <text x="300" y="182" font-family="system-ui, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#000">MOBILE CARE</text>
+
+  <!-- main door -->
+  <rect x="240" y="290" width="120" height="110" rx="3" fill="url(#glass)"/>
+  <rect x="240" y="290" width="120" height="110" rx="3" fill="none" stroke="#333" stroke-width="2"/>
+  <!-- door handle -->
+  <circle cx="272" cy="345" r="5" fill="#fbbf24"/>
+  <circle cx="328" cy="345" r="5" fill="#fbbf24"/>
+  <!-- door split -->
+  <line x1="300" y1="290" x2="300" y2="400" stroke="#333" stroke-width="1.5"/>
+
+  <!-- left window -->
+  <rect x="90" y="220" width="120" height="90" rx="3" fill="url(#glass)"/>
+  <rect x="90" y="220" width="120" height="90" rx="3" fill="none" stroke="#333" stroke-width="2"/>
+  <line x1="150" y1="220" x2="150" y2="310" stroke="#333" stroke-width="1"/>
+  <line x1="90" y1="265" x2="210" y2="265" stroke="#333" stroke-width="1"/>
+  <!-- window glow -->
+  <rect x="92" y="222" width="56" height="41" rx="2" fill="#fbbf24" opacity="0.04"/>
+
+  <!-- right window -->
+  <rect x="390" y="220" width="120" height="90" rx="3" fill="url(#glass)"/>
+  <rect x="390" y="220" width="120" height="90" rx="3" fill="none" stroke="#333" stroke-width="2"/>
+  <line x1="450" y1="220" x2="450" y2="310" stroke="#333" stroke-width="1"/>
+  <line x1="390" y1="265" x2="510" y2="265" stroke="#333" stroke-width="1"/>
+  <rect x="392" y="222" width="56" height="41" rx="2" fill="#fbbf24" opacity="0.04"/>
+
+  <!-- display items in left window -->
+  <rect x="100" y="270" width="18" height="28" rx="2" fill="#333"/>
+  <rect x="125" y="268" width="14" height="30" rx="2" fill="#2a2a2a"/>
+  <rect x="145" y="272" width="16" height="26" rx="2" fill="#333"/>
+  <rect x="165" y="270" width="12" height="28" rx="2" fill="#2a2a2a"/>
+
+  <!-- display items in right window -->
+  <rect x="400" y="268" width="16" height="30" rx="2" fill="#333"/>
+  <rect x="422" y="270" width="18" height="28" rx="2" fill="#2a2a2a"/>
+  <rect x="446" y="268" width="14" height="30" rx="2" fill="#333"/>
+  <rect x="466" y="272" width="16" height="26" rx="2" fill="#2a2a2a"/>
+
+  <!-- open sign -->
+  <rect x="253" y="250" width="94" height="28" rx="4" fill="#fbbf24" opacity="0.15"/>
+  <rect x="253" y="250" width="94" height="28" rx="4" fill="none" stroke="#fbbf24" stroke-width="1" opacity="0.4"/>
+  <text x="300" y="269" font-family="system-ui, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#fbbf24">OPEN</text>
+
+  <!-- awning stripes -->
+  <clipPath id="awning-clip">
+    <rect x="60" y="95" width="480" height="20"/>
+  </clipPath>
+  <g clip-path="url(#awning-clip)">
+    <rect x="60" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="90" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="120" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="150" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="180" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="210" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="240" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="270" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="300" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="330" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="360" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="390" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="420" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="450" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="480" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+    <rect x="510" y="95" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+  </g>
+
+  <!-- pavement lines -->
+  <line x1="0" y1="430" x2="600" y2="430" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="0" y1="460" x2="600" y2="460" stroke="#111" stroke-width="1"/>
+
+  <!-- subtle street lights effect -->
+  <ellipse cx="300" cy="395" rx="80" ry="8" fill="#fbbf24" opacity="0.03"/>
+</svg>
