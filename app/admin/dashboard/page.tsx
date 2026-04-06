@@ -647,7 +647,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div style={{ background: N900, minHeight: '100vh', display: 'flex', flexDirection: 'column', color: N300, fontFamily: 'system-ui, sans-serif' }}>
+        <div style={{ background: N900, minHeight: '100vh', display: 'flex', flexDirection: 'column', color: N300, fontFamily: 'system-ui, sans-serif', overflowX: 'hidden' }}>
 
             <nav style={{ background: B900, borderBottom: `1px solid ${N700}`, padding: '11px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, gap: 8 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

@@ -2,6 +2,7 @@ import { Pool } from 'pg'
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 })
 
 export async function query(text: string, params?: unknown[]) {
@@ -13,6 +14,7 @@ export async function query(text: string, params?: unknown[]) {
     client.release()
   }
 }
+
 export async function initDb() {
   await query(`
     CREATE TABLE IF NOT EXISTS finance_entries (

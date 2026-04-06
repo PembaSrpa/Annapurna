@@ -29,10 +29,10 @@ export default function AdminLogin() {
     }
 
     return (
-        <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: 'system-ui, sans-serif', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: 'system-ui, sans-serif', position: 'relative', overflow: 'hidden', maxWidth: '100vw' }}>
             <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/mountain-bg.svg)', backgroundSize: 'cover', backgroundPosition: 'center bottom', opacity: 0.22 }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.88))' }} />
-            <div style={{ position: 'absolute', top: '18%', left: '50%', transform: 'translateX(-50%)', width: 400, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', top: '18%', left: '50%', transform: 'translateX(-50%)', width: '80vw', maxWidth: 400, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
             <div style={{ width: '100%', maxWidth: 400, position: 'relative', zIndex: 1 }}>
                 <div style={{ textAlign: 'center', marginBottom: 32 }}>

@@ -184,10 +184,10 @@ export default function HomePage() {
             </nav>
 
             {/* HERO - black with mountain */}
-            <section id="home" style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+            <section id="home" style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', maxWidth: '100vw' }}>
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/annapurna.jpg)', backgroundSize: 'cover', backgroundPosition: 'center bottom', backgroundRepeat: 'no-repeat', opacity: 0.55 }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 75%, #000 100%)' }} />
-                <div style={{ position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)', width: 600, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)', width: '80vw', maxWidth: 600, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1, width: '100%' }}>
                     <div style={{ maxWidth: 680, position: 'relative' }}>
                         <div className="animate-fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 100, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.25)', marginBottom: 32 }}>
@@ -196,13 +196,12 @@ export default function HomePage() {
                         </div>
 
                         <h1 className="animate-fade-in-up animate-delay-100" style={{ fontSize: 'clamp(40px, 7vw, 80px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: 24, letterSpacing: '-1px' }}>
-                            Annapurna<br />
-                            <span style={{ color: '#fbbf24' }}>Mobile Care</span><br />
+                            Annapurna <span style={{ color: '#fbbf24' }}>Mobile Care,</span><br />
                             Your Tech & Print <span style={{ color: '#fbbf24' }}>Partner</span><br />
                         </h1>
 
                         <p className="animate-fade-in-up animate-delay-200" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 17, lineHeight: 1.7, marginBottom: 40, maxWidth: 520 }}>
-                            From mobile accessories and repairs to printing, photos, and document services - everything you need, right here in Dharan.
+                            From mobile accessories and repairs to printing, photos, and document services - everything you probably need.
                         </p>
 
                         <div className="animate-fade-in-up animate-delay-300" style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
@@ -227,7 +226,7 @@ export default function HomePage() {
             </section>
 
             {/* SERVICES - white */}
-            <section id="services" style={{ padding: '96px 0', background: '#fff' }}>
+            <section id="services" style={{ padding: '96px 0', background: '#fff', overflow: 'hidden' }}>
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>What We Offer</div>
@@ -263,7 +262,7 @@ export default function HomePage() {
             </section>
 
             {/* ABOUT - black */}
-            <section id="about" style={{ padding: '96px 0', background: '#000' }}>
+            <section id="about" style={{ padding: '96px 0', background: '#000', overflow: 'hidden' }}>
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
                     <div id="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
                         <FadeIn>
@@ -312,7 +311,7 @@ export default function HomePage() {
             </section>
 
             {/* LOCATION - white */}
-            <section id="location" style={{ padding: '96px 0', background: '#fff' }}>
+            <section id="location" style={{ padding: '96px 0', background: '#fff', overflow: 'hidden' }}>
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>Find Us</div>
@@ -357,7 +356,7 @@ export default function HomePage() {
             </section>
 
             {/* CONTACT - black */}
-            <section id="contact" style={{ padding: '96px 0', background: '#000' }}>
+            <section id="contact" style={{ padding: '96px 0', background: '#000', overflow: 'hidden' }}>
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 12 }}>Reach Out</div>
