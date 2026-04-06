@@ -128,7 +128,7 @@ export default function HomePage() {
     }, [])
 
     return (
-        <div style={{ fontFamily: 'system-ui, sans-serif' }}>
+        <div style={{ fontFamily: 'system-ui, sans-serif', overflowX: 'hidden', maxWidth: '100vw' }}>
 
             {/* NAV */}
             <nav style={{

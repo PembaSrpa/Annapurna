@@ -14,7 +14,6 @@ ChartJS.register(
     BarElement, ArcElement, Tooltip, ChartLegend, Filler
 )
 
-// Pure black/white/yellow palette
 const N900 = '#000000'
 const N800 = '#0a0a0a'
 const N700 = '#1a1a1a'
@@ -25,7 +24,6 @@ const N300 = '#bbbbbb'
 const N200 = '#e5e5e5'
 
 const B900 = '#080808'
-const B800 = '#111111'
 const B100 = '#fbbf24'
 
 const RED = '#ef4444'
@@ -63,19 +61,10 @@ const CATS = [
     { key: 'expenses', label: 'Expenses', color: RED },
 ] as const
 
-const CHART_COLORS = {
-    purple: '#aaaaaa',
-    blue: '#cccccc',
-    green: '#999999',
-    amber: B100,
-    red: '#666666',
-    orange: '#777777',
-}
-
 const GRID_COLOR = `${N600}55`
 const TICK_COLOR = N500
 const TOOLTIP_CFG = {
-    backgroundColor: B800,
+    backgroundColor: '#111111',
     borderColor: `${N600}66`,
     borderWidth: 1,
     titleColor: N300,
@@ -146,29 +135,16 @@ function StatCards({ entries }: { entries: Entry[] }) {
     ]
 
     return (
-        <><div id="stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 20, overflowX: 'auto' }}>
+        <div id="stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 20, overflowX: 'auto' }}>
             {cards.map(c => (
-                <div key={c.label} style={{ background: B900, border: `1px solid ${c.border}`, borderRadius: 9, padding: '11px 13px' }}>
+                <div key={c.label} style={{ background: B900, border: `1px solid ${c.border}`, borderRadius: 9, padding: '11px 13px', minWidth: 90 }}>
                     <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.6px', color: N400, marginBottom: 5 }}>
                         {c.label}
                     </div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: c.accent }}>{c.val}</div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: c.accent }}>{c.val}</div>
                 </div>
             ))}
-        </div><style>{`
-                @media (max-width: 768px) {
-                    #sidebar-toggle { display: flex !important; }
-                    #sidebar {
-                        position: fixed !important;
-                        top: 0 !important; bottom: 0 !important;
-                        z-index: 41 !important;
-                        overflow-y: auto !important;
-                        transition: transform 0.25s ease !important;
-                    }
-                    #main-content { padding: 12px !important; }
-                    #stat-grid { grid-template-columns: repeat(4, minmax(120px, 1fr)) !important; overflow-x: auto !important; }
-                }
-            `}</style></>
+        </div>
     )
 }
 
@@ -187,7 +163,6 @@ function Th({ children, left, accent, muted }: { children?: React.ReactNode; lef
 function TableRow({ entry: e, dateStr, net, onEdit, onDelete }: {
     entry: Entry; dateStr: string; net: number
     onEdit: (e: Entry) => void; onDelete: (id: number) => void
-
 }) {
     const [hovered, setHovered] = useState(false)
     return (
@@ -214,7 +189,7 @@ function TableRow({ entry: e, dateStr, net, onEdit, onDelete }: {
             </td>
             <td style={{ padding: '10px 12px' }}>
                 <div style={{ display: 'flex', gap: 6, opacity: hovered ? 1 : 0, transition: 'opacity .15s' }}>
-                    <button onClick={() => { console.log('editing:', e.id, e.date); onEdit(e) }} style={{ background: N800, border: `1px solid ${B100}40`, cursor: 'pointer', fontSize: 10, color: B100, padding: '3px 9px', borderRadius: 5 }}>
+                    <button onClick={() => onEdit(e)} style={{ background: N800, border: `1px solid ${B100}40`, cursor: 'pointer', fontSize: 10, color: B100, padding: '3px 9px', borderRadius: 5 }}>
                         Edit
                     </button>
                     <button onClick={() => onDelete(e.id)} style={{ background: N800, border: `1px solid ${N500}40`, cursor: 'pointer', fontSize: 10, color: N400, padding: '3px 9px', borderRadius: 5 }}>
@@ -352,7 +327,7 @@ function AnalysisPane({ entries, month, year, allEntries }: {
                 <div style={{ fontSize: 11, color: N400, marginTop: 2 }}>{MONTHS[month - 1]} {year}</div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div id="chart-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <ChartCard title="Daily Profit Trend">
                     <div style={{ position: 'relative', height: 180 }}>
                         <Line
@@ -473,6 +448,7 @@ function EntryModal({ initial, onSave, onClose }: {
             notes: initial.notes ?? '',
         })
     }, [initial.id])
+
     const [saving, setSaving] = useState(false)
 
     async function handleSubmit(e: React.FormEvent) {
@@ -683,33 +659,32 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    <button
-                        onClick={() => { window.location.href = `/api/export?month=${month}&year=${year}` }}
-                        style={{ ...yellowBtn({ padding: '6px 12px', fontSize: 11, borderRadius: 7 }) }}
-                    >
+                    <button onClick={() => { window.location.href = `/api/export?month=${month}&year=${year}` }}
+                        style={{ ...yellowBtn({ padding: '6px 12px', fontSize: 11, borderRadius: 7 }) }}>
                         ↓ Export
                     </button>
-                    <button
-                        onClick={async () => { await fetch('/api/auth/logout', { method: 'POST' }); router.push('/admin') }}
-                        style={{ ...ghostBtn({ padding: '6px 12px', fontSize: 11, borderRadius: 7 }) }}
-                    >
+                    <button onClick={async () => { await fetch('/api/auth/logout', { method: 'POST' }); router.push('/admin') }}
+                        style={{ ...ghostBtn({ padding: '6px 12px', fontSize: 11, borderRadius: 7 }) }}>
                         Logout
                     </button>
                 </div>
             </nav>
 
-            <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+            <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
                 {sidebarOpen && (
                     <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 40 }} />
                 )}
-                <div id="sidebar" style={{
+
+                <div id="sidebar" className={sidebarOpen ? 'sidebar-open' : ''} style={{
                     width: 185, flexShrink: 0, background: B900, borderRight: `1px solid ${N700}`,
                     padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: 4,
-                    transform: sidebarOpen ? 'translateX(0)' : undefined,
                 }}>
-                    <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.8px', color: N500, padding: '0 10px 8px' }}>Menu</div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 6px 10px' }}>
+                        <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.8px', color: N500 }}>Menu</div>
+                        <button onClick={() => setSidebarOpen(false)} id="sidebar-close" style={{ background: 'transparent', border: 'none', color: N500, cursor: 'pointer', fontSize: 20, lineHeight: 1, padding: '2px 4px', display: 'none' }}>×</button>
+                    </div>
 
-                    <NavItem active={pane === 'entries'} onClick={() => setPane('entries')}>
+                    <NavItem active={pane === 'entries'} onClick={() => { setPane('entries'); setSidebarOpen(false) }}>
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
                             <rect x="1" y="1" width="14" height="3" rx="1" fill="currentColor" />
                             <rect x="1" y="6" width="14" height="3" rx="1" fill="currentColor" opacity=".6" />
@@ -718,7 +693,7 @@ export default function Dashboard() {
                         Daily Entries
                     </NavItem>
 
-                    <NavItem active={pane === 'analysis'} onClick={() => setPane('analysis')}>
+                    <NavItem active={pane === 'analysis'} onClick={() => { setPane('analysis'); setSidebarOpen(false) }}>
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
                             <polyline points="1,12 5,7 8,10 11,4 15,6" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -741,7 +716,7 @@ export default function Dashboard() {
 
                     <div style={{ padding: '0 4px' }}>
                         <button
-                            onClick={() => { setEditTarget(null); setShowForm(true) }}
+                            onClick={() => { setEditTarget(null); setShowForm(true); setSidebarOpen(false) }}
                             style={{ ...yellowBtn({ width: '100%', padding: '9px 0', fontSize: 12, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }) }}
                         >
                             + Add Entry
@@ -758,8 +733,7 @@ export default function Dashboard() {
                             {pane === 'entries' && (
                                 <EntriesTable entries={entries} month={month} year={year}
                                     onEdit={e => { setEditTarget(e); setShowForm(true) }}
-                                    onDelete={id => setDeleteId(id)}
-                                />
+                                    onDelete={id => setDeleteId(id)} />
                             )}
                             {pane === 'analysis' && (
                                 <AnalysisPane entries={entries} month={month} year={year} allEntries={allEntries} />
@@ -770,19 +744,37 @@ export default function Dashboard() {
             </div>
 
             {showForm && (
-                <EntryModal
-                    initial={editTarget ?? {}}
-                    onSave={handleSave}
-                    onClose={() => { setShowForm(false); setEditTarget(null) }}
-                />
+                <EntryModal initial={editTarget ?? {}} onSave={handleSave} onClose={() => { setShowForm(false); setEditTarget(null) }} />
             )}
 
             {deleteId !== null && (
-                <DeleteModal
-                    onConfirm={() => handleDelete(deleteId)}
-                    onClose={() => setDeleteId(null)}
-                />
+                <DeleteModal onConfirm={() => handleDelete(deleteId)} onClose={() => setDeleteId(null)} />
             )}
+
+            <style>{`
+                #sidebar-toggle { display: none; }
+                #sidebar-close { display: none; }
+                @media (max-width: 768px) {
+                    #sidebar-toggle { display: flex !important; }
+                    #sidebar-close { display: flex !important; }
+                    #sidebar {
+                        position: fixed !important;
+                        top: 0 !important;
+                        bottom: 0 !important;
+                        left: 0 !important;
+                        z-index: 41 !important;
+                        overflow-y: auto !important;
+                        transition: transform 0.25s ease !important;
+                        transform: translateX(-100%) !important;
+                    }
+                    #sidebar.sidebar-open {
+                        transform: translateX(0) !important;
+                    }
+                    #main-content { padding: 12px !important; }
+                    #stat-grid { grid-template-columns: repeat(4, minmax(100px, 1fr)) !important; }
+                    #chart-grid { grid-template-columns: 1fr !important; }
+                }
+            `}</style>
         </div>
     )
 }
