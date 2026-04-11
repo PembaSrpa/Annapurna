@@ -1,7 +1,15 @@
+require('dotenv').config({ path: '.env.local' })
 const { Pool } = require('pg')
 
+if (!process.env.DATABASE_URL) {
+  console.error('Error: DATABASE_URL environment variable is not set.')
+  console.error('Create a .env.local file with DATABASE_URL=postgresql://...')
+  process.exit(1)
+}
+
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:admin@localhost:8000/annapurna_db',
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false },
 })
 
 async function setup() {
@@ -25,10 +33,11 @@ async function setup() {
       )
     `)
 
-    console.log('✓ Database tables created successfully')
-    console.log('✓ Setup complete! Run: npm run dev')
+    console.log('Database tables created successfully')
+    console.log('Setup complete! Run: npm run dev')
   } catch (err) {
     console.error('Error:', err)
+    process.exit(1)
   } finally {
     client.release()
     await pool.end()
