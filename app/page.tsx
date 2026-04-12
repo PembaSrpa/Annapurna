@@ -190,7 +190,7 @@ export default function HomePage() {
                 <div style={{ position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)', width: '80vw', maxWidth: 600, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
                 <div style={{ maxWidth: 1152, margin: '0 auto', padding: '120px 24px 80px', position: 'relative', zIndex: 1, width: '100%' }}>
                     <div style={{ maxWidth: 680, position: 'relative' }}>
-                        <div className="animate-fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 100, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.25)', marginBottom: 32 }}>
+                        <div className="animate-fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px', borderRadius: 100, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.25)', marginBottom: 32 }}>
                             <span style={{ width: 6, height: 6, borderRadius: '50%', background: open ? '#4ade80' : '#ef4444', display: 'inline-block' }} />
                             <span style={{ color: '#fbbf24', fontSize: 11, fontWeight: 500 }}>{label} · Dharan-16, Annapurna Chowk</span>
                         </div>
