@@ -362,7 +362,7 @@ export default function HomePage() {
                     <FadeIn style={{ textAlign: 'center', marginBottom: 48 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 12 }}>Reach Out</div>
                         <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px', marginBottom: 12 }}>Let's Talk</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 14, margin: 0 }}>Walk in, call, or message — we're here for you.</p>
+                        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 14, margin: 0 }}>Walk in, call, or message - we're here for you.</p>
                     </FadeIn>
 
                     <div style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -410,7 +410,7 @@ export default function HomePage() {
                                         <IconMail size={18} color="rgba(255,255,255,0.5)" />
                                     </div>
                                     <div style={{ minWidth: 0, flex: 1 }}>
-                                        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 2 }}>Email</div>
+                                        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 2 }}>Email us at</div>
                                         <div style={{ fontSize: 12, fontWeight: 500, color: '#fff', wordBreak: 'break-all' }}>annapurnamobilec@gmail.com</div>
                                     </div>
                                 </a>
