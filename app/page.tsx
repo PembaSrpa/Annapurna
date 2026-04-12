@@ -356,7 +356,7 @@ export default function HomePage() {
             </section>
 
             {/* CONTACT */}
-            <section id="contact" style={{ padding: '76px 0', background: '#000', overflow: 'hidden' }}>
+            <section id="contact" style={{ padding: '82px 0', background: '#000', overflow: 'hidden' }}>
                 <div style={{ maxWidth: 1152, maxHeight: '60vh', margin: '0 auto', padding: '0 24px' }}>
                     <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 12 }}>Reach Out</div>
