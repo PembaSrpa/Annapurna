@@ -105,7 +105,7 @@ function useIsOpen() {
             const hours = now.getHours()
             const minutes = now.getMinutes()
             const total = hours * 60 + minutes
-            const open = total >= 8 * 60 && total < 19 * 60
+            const open = total >= 8 * 60 && total < 20 * 60
             const label = open ? 'Open Now' : 'Closed'
             setStatus({ open, label })
         }
@@ -184,7 +184,7 @@ export default function HomePage() {
             </nav>
 
             {/* HERO - black with mountain */}
-            <section id="home" style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', maxWidth: '100vw' }}>
+            <section id="home" style={{ minHeight: '75vh', background: '#000', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', maxWidth: '100vw' }}>
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/annapurna.jpg)', backgroundSize: 'cover', backgroundPosition: 'center bottom', backgroundRepeat: 'no-repeat', opacity: 0.55 }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 75%, #000 100%)' }} />
                 <div style={{ position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)', width: '80vw', maxWidth: 600, height: 180, background: 'radial-gradient(ellipse, rgba(251,191,36,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
@@ -322,7 +322,7 @@ export default function HomePage() {
                         <FadeIn style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             {[
                                 { icon: IconMapPin, label: 'Address', value: 'Annapurna Chowk, Dharan-16\nSunsari, Koshi Province, Nepal' },
-                                { icon: IconClock, label: 'Hours', value: 'Everyday: 8:00 AM – 7:00 PM' },
+                                { icon: IconClock, label: 'Hours', value: 'Everyday: 8:00 AM – 8:00 PM' },
                             ].map((item, i) => {
                                 const Icon = item.icon
                                 return (
