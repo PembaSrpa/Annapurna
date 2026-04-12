@@ -356,12 +356,13 @@ export default function HomePage() {
             </section>
 
             {/* CONTACT */}
-            <section id="contact" style={{ padding: '82px 0', background: '#000', overflow: 'hidden' }}>
-                <div style={{ maxWidth: 1152, maxHeight: '60vh', margin: '0 auto', padding: '0 24px' }}>
-                    <FadeIn style={{ textAlign: 'center', marginBottom: 64 }}>
+            <section id="contact" style={{ padding: '80px 0', background: '#000', overflow: 'hidden' }}>
+                {/* Removed maxHeight from here to allow vertical stacking on mobile */}
+                <div id="contact-container" style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
+                    <FadeIn style={{ textAlign: 'center', marginBottom: 48 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#fbbf24', marginBottom: 12 }}>Reach Out</div>
-                        <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px', marginBottom: 12 }}>Let&apos;s Talk</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 14, margin: 0 }}>Walk in, call, or message - we&apos;re here for you.</p>
+                        <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.5px', marginBottom: 12 }}>Let's Talk</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 14, margin: 0 }}>Walk in, call, or message — we're here for you.</p>
                     </FadeIn>
 
                     <div style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -374,27 +375,18 @@ export default function HomePage() {
                                     <a key={i} href={item.href}
                                         style={{
                                             textDecoration: 'none', display: 'flex', flexDirection: 'column',
-                                            justifyContent: 'space-between', padding: '28px', borderRadius: 16,
-                                            position: 'relative', overflow: 'hidden', minHeight: 140,
+                                            justifyContent: 'space-between', padding: '24px', borderRadius: 16,
+                                            position: 'relative', overflow: 'hidden', minHeight: 120,
                                             background: item.accent ? 'rgba(251,191,36,0.06)' : 'rgba(255,255,255,0.03)',
                                             border: `1px solid ${item.accent ? 'rgba(251,191,36,0.18)' : 'rgba(255,255,255,0.08)'}`,
-                                            transition: 'all 0.2s',
-                                        }}
-                                        onMouseEnter={e => {
-                                            e.currentTarget.style.background = item.accent ? 'rgba(251,191,36,0.12)' : 'rgba(255,255,255,0.06)'
-                                            e.currentTarget.style.borderColor = item.accent ? 'rgba(251,191,36,0.4)' : 'rgba(255,255,255,0.2)'
-                                        }}
-                                        onMouseLeave={e => {
-                                            e.currentTarget.style.background = item.accent ? 'rgba(251,191,36,0.06)' : 'rgba(255,255,255,0.03)'
-                                            e.currentTarget.style.borderColor = item.accent ? 'rgba(251,191,36,0.18)' : 'rgba(255,255,255,0.08)'
                                         }}>
-                                        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: item.accent ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.25)', marginBottom: 16 }}>{item.label}</div>
+                                        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: item.accent ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.25)', marginBottom: 12 }}>{item.label}</div>
                                         <div>
-                                            <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.5px', marginBottom: 4 }}>{item.value}</div>
-                                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>Tap to call</div>
+                                            <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', letterSpacing: '-0.5px' }}>{item.value}</div>
+                                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>Tap to call</div>
                                         </div>
-                                        <div style={{ position: 'absolute', top: 24, right: 24, width: 40, height: 40, borderRadius: 10, background: item.accent ? '#fbbf24' : 'rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <IconPhone size={18} color={item.accent ? '#000' : 'rgba(255,255,255,0.5)'} />
+                                        <div style={{ position: 'absolute', top: 20, right: 20, width: 36, height: 36, borderRadius: 10, background: item.accent ? '#fbbf24' : 'rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <IconPhone size={16} color={item.accent ? '#000' : 'rgba(255,255,255,0.5)'} />
                                         </div>
                                     </a>
                                 ))}
@@ -402,38 +394,26 @@ export default function HomePage() {
 
                             <div id="contact-bottom-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                                 <a href="https://wa.me/9779842415795" target="_blank" rel="noopener noreferrer"
-                                    style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 16, padding: '22px 24px', borderRadius: 16, background: 'rgba(37,211,102,0.06)', border: '1px solid rgba(37,211,102,0.2)', transition: 'all 0.2s' }}
-                                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(37,211,102,0.12)'; e.currentTarget.style.borderColor = 'rgba(37,211,102,0.4)' }}
-                                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(37,211,102,0.06)'; e.currentTarget.style.borderColor = 'rgba(37,211,102,0.2)' }}>
-                                    <div style={{ width: 46, height: 46, borderRadius: 12, background: 'rgba(37,211,102,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                        <IconBrandWhatsapp size={22} color="#25d366" />
+                                    style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 16, padding: '20px', borderRadius: 16, background: 'rgba(37,211,102,0.06)', border: '1px solid rgba(37,211,102,0.2)' }}>
+                                    <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(37,211,102,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                        <IconBrandWhatsapp size={20} color="#25d366" />
                                     </div>
-                                    <div>
-                                        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(37,211,102,0.5)', marginBottom: 3 }}>WhatsApp</div>
-                                        <div style={{ fontSize: 14, fontWeight: 600, color: '#fff' }}>Message us instantly</div>
+                                    <div style={{ minWidth: 0 }}>
+                                        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(37,211,102,0.5)', marginBottom: 2 }}>WhatsApp</div>
+                                        <div style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>Message us</div>
                                     </div>
                                 </a>
 
                                 <a href="mailto:annapurnamobilec@gmail.com"
-                                    style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 16, padding: '22px 24px', borderRadius: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.2s' }}
-                                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)' }}
-                                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}>
-                                    <div style={{ width: 46, height: 46, borderRadius: 12, background: 'rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                        <IconMail size={20} color="rgba(255,255,255,0.5)" />
+                                    style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 16, padding: '20px', borderRadius: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                                    <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                        <IconMail size={18} color="rgba(255,255,255,0.5)" />
                                     </div>
-                                    <div style={{ minWidth: 0 }}>
-                                        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 3 }}>Email</div>
-                                        <div style={{ fontSize: 13, fontWeight: 500, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>annapurnamobilec@gmail.com</div>
+                                    <div style={{ minWidth: 0, flex: 1 }}>
+                                        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 2 }}>Email</div>
+                                        <div style={{ fontSize: 12, fontWeight: 500, color: '#fff', wordBreak: 'break-all' }}>annapurnamobilec@gmail.com</div>
                                     </div>
                                 </a>
-                            </div>
-
-                            <div style={{ marginTop: 24, padding: '20px 28px', borderRadius: 14, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: open ? '#4ade80' : '#ef4444', flexShrink: 0, display: 'inline-block' }} />
-                                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>Open today · 8:00 AM – 8:00 PM</span>
-                                </div>
-                                <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 12 }}>Annapurna Chowk, Dharan-16</span>
                             </div>
                         </FadeIn>
                     </div>
@@ -462,22 +442,31 @@ export default function HomePage() {
             </footer>
 
             <style>{`
-        #mobile-btn { display: none; }
-        @media (max-width: 768px) {
-          #desktop-nav { display: none !important; }
-          #mobile-btn { display: flex !important; }
-          #services-grid { grid-template-columns: 1fr !important; }
-          #about-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-          #location-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          #contact-top-grid { grid-template-columns: 1fr !important; }
-          #contact-bottom-grid { grid-template-columns: 1fr !important; }
-          #hero-content { padding: 100px 20px 60px !important; }
-        }
-        @keyframes bounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(8px); }
-        }
-      `}</style>
+    #mobile-btn { display: none; }
+
+    /* Desktop Logic */
+    @media (min-width: 769px) {
+      #contact-container { min-height: 60vh; max-height: 60vh; }
+    }
+
+    /* Mobile Logic */
+    @media (max-width: 768px) {
+      #desktop-nav { display: none !important; }
+      #mobile-btn { display: flex !important; }
+      #services-grid { grid-template-columns: 1fr !important; }
+      #about-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+      #location-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      #contact-top-grid { grid-template-columns: 1fr !important; }
+      #contact-bottom-grid { grid-template-columns: 1fr !important; }
+      #hero-content { padding: 100px 20px 60px !important; }
+      #contact-container { max-height: none !important; } /* Ensure height is auto on mobile */
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+`}</style>
         </div>
     )
 }
